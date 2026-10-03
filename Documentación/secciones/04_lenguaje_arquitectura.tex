@@ -23,10 +23,6 @@ La solución se divide en proyectos cuyas dependencias apuntan en una sola direc
 \end{tabularx}
 \end{table}
 
-La Figura~\ref{fig:paquetes} muestra los proyectos como paquetes y, dentro de \texttt{Domino.Dominio}, la agrupación de sus clases. Las dependencias forman un grafo sin ciclos que termina en \texttt{Enumeraciones}: \texttt{Juego} coordina a los jugadores, los tipos de valor y las abstracciones; \texttt{Jugadores} solo conoce los tipos de valor, y estos no dependen de ninguna entidad. \texttt{Domino.Persistencia} depende únicamente de \texttt{Abstracciones}, porque su función es implementar \texttt{IRepositorioPartidas}.
-
-\diagrama[0.95\textwidth]{paquetes}{Diagrama de paquetes de la solución}{fig:paquetes}
-
 \begin{nota}
 \textbf{Restricción de independencia del dominio.} El proyecto \texttt{Domino.Dominio} no referencia a \texttt{System.Console} ni a ningún otro proyecto de la solución. La consola puede reemplazarse por otra interfaz sin modificar el dominio, y \texttt{Domino.Simulacion} lo evidencia al ejecutar partidas completas utilizando únicamente el dominio.
 \end{nota}

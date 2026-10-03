@@ -39,7 +39,6 @@ El PDF queda en `build/main.pdf`. Desde terminal: `latexmk main.tex`.
 
 | Archivo | Sección donde se incluye |
 |---|---|
-| `diagramas/paquetes.drawio` | 3. Lenguaje y organización de la solución |
 | `diagramas/casos_uso.drawio` | 4. Casos de uso |
 | `diagramas/modelo_dominio.drawio` | 5. Modelo de dominio |
 | `diagramas/enumeraciones.drawio` | 5.2. Valores enumerados |
