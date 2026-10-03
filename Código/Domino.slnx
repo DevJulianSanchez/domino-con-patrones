@@ -2,5 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/Domino.Consola/Domino.Consola.csproj" />
     <Project Path="src/Domino.Dominio/Domino.Dominio.csproj" />
+    <Project Path="src/Domino.Persistencia/Domino.Persistencia.csproj" />
+    <Project Path="src/Domino.Simulacion/Domino.Simulacion.csproj" />
   </Folder>
 </Solution>

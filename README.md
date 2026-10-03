@@ -13,15 +13,18 @@ Proyecto semestral de Diseño Basado en Patrones (UAN, Maestría en Arquitectura
 cd Código
 dotnet build                                  # compila la solución
 dotnet run --project src/Domino.Consola       # juego en consola
+dotnet run --project src/Domino.Simulacion -- 1000 42   # partidas, semilla
 ```
 
 | Proyecto | Depende de | Contenido |
 |---|---|---|
-| `Domino.Dominio` | — | Reglas del juego, entidades y tipos de valor |
-| `Domino.Consola` | Dominio | `InterfazConsola` |
+| `Domino.Dominio` | — | Reglas del juego, entidades, tipos de valor y abstracciones |
+| `Domino.Persistencia` | Dominio | `RepositorioPartidasJson` |
+| `Domino.Consola` | Dominio, Persistencia | `InterfazConsola`, `RelojSistema` |
+| `Domino.Simulacion` | Dominio, Persistencia | `SimuladorPartidas`, `RelojSimulado` |
 
-El código es un esqueleto inicial: la consola configura la partida (CU-01) y crea
-los jugadores; el reparto y el ciclo de turnos están pendientes.
+Los nombres de clases y miembros coinciden con el diagrama de clases del documento
+(`Documentación/diagramas/diagrama_clases.drawio` y `tipos_dato.drawio`).
 
 ## Documento
 

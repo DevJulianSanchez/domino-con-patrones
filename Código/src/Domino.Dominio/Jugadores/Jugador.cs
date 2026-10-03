@@ -15,4 +15,6 @@ public abstract class Jugador
     public Mano Mano { get; } = new();
 
     public abstract bool EsAutomatico { get; }
+
+    public abstract bool AplicaLimiteTiempo { get; }
 }

@@ -22,5 +22,16 @@ public sealed record Ficha
 
     public bool EsDoble => ValorA == ValorB;
 
+    public int ValorMayor => ValorB;
+
+    public bool Contiene(int valor) => ValorA == valor || ValorB == valor;
+
+    public int OtroValor(int valor)
+    {
+        if (valor == ValorA) return ValorB;
+        if (valor == ValorB) return ValorA;
+        throw new ArgumentException($"La ficha {this} no contiene el valor {valor}.", nameof(valor));
+    }
+
     public override string ToString() => $"[{ValorA}|{ValorB}]";
 }

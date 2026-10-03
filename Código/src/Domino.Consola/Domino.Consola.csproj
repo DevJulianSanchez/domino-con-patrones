@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domino.Dominio\Domino.Dominio.csproj" />
+    <ProjectReference Include="..\Domino.Persistencia\Domino.Persistencia.csproj" />
   </ItemGroup>
 
 </Project>

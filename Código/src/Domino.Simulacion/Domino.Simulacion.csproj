@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domino.Dominio\Domino.Dominio.csproj" />
+    <ProjectReference Include="..\Domino.Persistencia\Domino.Persistencia.csproj" />
+  </ItemGroup>
+
+</Project>
