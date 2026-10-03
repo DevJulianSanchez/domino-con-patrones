@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Domino.Consola/Domino.Consola.csproj" />
+    <Project Path="src/Domino.Dominio/Domino.Dominio.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,88 @@
+% !TEX root = ../main.tex
+\section{Diseño de clases}\label{sec:clases}
+
+El diagrama de clases de diseño traslada los conceptos del dominio a clases de software con atributos, operaciones, constructores y visibilidad. Es la base directa de la implementación: los nombres, las firmas y los tipos coinciden con los del código del repositorio. Cada clase del dominio indica como estereotipo el principio de asignación de responsabilidades que justifica su existencia o su papel principal \citar{larman2003uml}.
+
+\subsection{Convenciones del diagrama}
+
+\begin{itemize}
+  \item \textbf{Entidades y tipos de valor.} Las clases con identidad y estado mutable (partida, mesa, jugadores, mano, historial) se relacionan mediante asociaciones. Las clases inmutables que se comparan por valor llevan el estereotipo «dataType», se implementan como \texttt{record} y se usan como tipo de atributo o de parámetro; por legibilidad se presentan en un diagrama aparte (Figura~\ref{fig:tipos-dato}).
+  \item \textbf{Extremos de asociación.} El nombre de rol corresponde al campo o propiedad que implementa la asociación, con su visibilidad; la multiplicidad se indica en ambos extremos. Una multiplicidad \texttt{0..*} se implementa como colección y \{ordered\} indica que el orden es significativo.
+  \item \textbf{Miembros.} Los miembros abstractos se muestran en cursiva y los estáticos subrayados. Las subclases muestran los miembros que redefinen o implementan. Los tipos de valor posicionales no muestran su constructor, porque coincide con sus atributos.
+\end{itemize}
+
+\diagrama*{diagrama_clases}{Diagrama de clases de diseño: entidades, interfaces y proyectos}{fig:diagrama-clases}
+
+\diagrama*{tipos_dato}{Diagrama de clases de diseño: tipos de valor del dominio}{fig:tipos-dato}
+
+\subsection{Clases del dominio}
+
+{\tablacompacta
+\begin{longtable}{@{}L{4.4cm}L{10.1cm}@{}}
+  \caption{Clases del proyecto \texttt{Domino.Dominio} y su responsabilidad}\label{tab:clases}\\
+  \toprule
+  \cab{Clase} & \cab{Responsabilidad} \\ \midrule \endfirsthead
+  \toprule
+  \cab{Clase} & \cab{Responsabilidad} \\ \midrule \endhead
+  \bottomrule \endlastfoot
+  \texttt{ControladorJuego} & Recibe las operaciones del sistema que provienen de la interfaz, las delega en la partida, resuelve a continuación los turnos de las CPU y devuelve la vista del jugador humano. Genera la semilla de cada partida y coordina guardar y cargar. \\ \filasep
+  \texttt{Partida} & Aplica las reglas del juego: salida, turnos, colocación, robo, paso, pérdida del turno por tiempo, cierre, deshacer y construcción de la vista de cada jugador. Crea los jugadores a partir de la configuración. \\ \filasep
+  \texttt{Mesa} & Mantiene la cadena de fichas colocadas, valida si una ficha puede colocarse en un extremo, la orienta al colocarla y permite retirarla al deshacer. \\ \filasep
+  \texttt{FichasParaRobar} & Entrega fichas al jugador que roba y las recibe de vuelta al deshacer, en orden inverso. \\ \filasep
+  \texttt{HistorialJugadas} & Registra cada jugada en orden y extrae la secuencia que debe revertirse al deshacer. \\ \filasep
+  \texttt{Repartidor} & Genera el juego de fichas del tipo de dominó, lo baraja con una semilla y lo reparte; entrega las fichas restantes como fichas para robar. \\ \filasep
+  \texttt{Jugador} & Clase abstracta con el alias, la posición y la mano. Declara si el jugador es automático y si le aplica el límite de tiempo. \\ \filasep
+  \texttt{JugadorHumano} & Jugador cuyas decisiones llegan desde la interfaz; le aplica el límite de tiempo. \\ \filasep
+  \texttt{JugadorCpu} & Clase abstracta de los jugadores automáticos: no les aplica el límite de tiempo y declara la decisión de jugada. \\ \filasep
+  \texttt{JugadorCpuPrincipiante} & Elige al azar una de las opciones válidas. \\ \filasep
+  \texttt{JugadorCpuIntermedio} & Elige la opción cuya ficha suma más puntos, para descargar la mano; en empate prefiere los dobles. \\ \filasep
+  \texttt{JugadorCpuAvanzado} & Evalúa cada opción por el número de fichas propias que seguirían siendo jugables con los extremos resultantes y desempata por puntos. \\ \filasep
+  \texttt{Mano} & Administra las fichas de un jugador y calcula su suma de puntos, su mayor doble y su ficha de mayor puntaje. \\ \filasep
+  \texttt{IReloj}, \texttt{IRepositorioPartidas} & Abstracciones propias para la hora actual y para guardar, cargar y listar partidas guardadas. \\
+\end{longtable}}
+
+{\tablacompacta
+\begin{longtable}{@{}L{4.4cm}L{10.1cm}@{}}
+  \caption{Tipos de valor del proyecto \texttt{Domino.Dominio}}\label{tab:tipos-dato}\\
+  \toprule
+  \cab{Tipo} & \cab{Responsabilidad} \\ \midrule \endfirsthead
+  \toprule
+  \cab{Tipo} & \cab{Responsabilidad} \\ \midrule \endhead
+  \bottomrule \endlastfoot
+  \texttt{Ficha} & Par de valores normalizado (\texttt{ValorA} $\leq$ \texttt{ValorB}), de modo que dos fichas iguales son iguales sin importar su orientación. Calcula sus puntos, si es doble y si contiene un valor. \\ \filasep
+  \texttt{FichaColocada} & Ficha orientada en la mesa, con el valor que queda hacia cada lado. \\ \filasep
+  \texttt{OpcionJugada} & Par ficha y extremo que representa una jugada válida disponible. \\ \filasep
+  \texttt{Jugada} & Acción registrada: tipo, posición del jugador, ficha y extremo cuando aplican, y orden. \\ \filasep
+  \texttt{PuntajeFinal} & Alias, puntos y fichas reveladas de un jugador al terminar la partida. \\ \filasep
+  \texttt{Resultado} & Forma de cierre, puntajes de todos los jugadores y ganador; aplica el desempate de RN-09. \\ \filasep
+  \texttt{ConfiguracionPartida} & Datos de CU-01 con su validación y los valores predeterminados; traduce el límite de tiempo a segundos. \\ \filasep
+  \texttt{DefinicionTipoDomino} & Valor máximo, fichas por jugador y total de fichas de cada tipo de dominó. \\ \filasep
+  \texttt{VistaPartida} & Información visible para un jugador: su mano, la cantidad de fichas de los demás, la mesa, las opciones válidas, las acciones permitidas, el tiempo restante, las últimas jugadas y, al terminar, el resultado. \\ \filasep
+  \texttt{PartidaGuardada} & Configuración, semilla y jugadas de una partida: lo necesario para reconstruirla. \\
+\end{longtable}}
+
+\subsection{Comportamiento de las operaciones principales}
+
+\begin{itemize}
+  \item \textbf{Iniciar.} \texttt{Partida.Iniciar} crea el \texttt{Repartidor} con la semilla, reparte las fichas, determina quién abre y con qué ficha (RN-05) y deja la partida en estado Salida. En ese estado solo se admite la ficha de salida.
+  \item \textbf{Jugadas.} \texttt{JugarFicha}, \texttt{Robar} y \texttt{Pasar} validan la acción contra el estado, el turno y las reglas, construyen la \texttt{Jugada} y la ejecutan con \texttt{Aplicar}, que modifica la mesa, la mano o las fichas para robar, registra la jugada, avanza el turno y verifica el fin. \texttt{Pasar} solo se admite si el jugador no tiene opciones y no quedan fichas para robar (RN-07).
+  \item \textbf{Turnos de las CPU.} \texttt{ResolverTurnosCpu} se ejecuta mientras el turno sea de una CPU y la partida no haya terminado: si hay opciones, la CPU decide con \texttt{DecidirJugada} sobre su propia vista; si no, roba hasta tener una ficha jugable o agotar las fichas para robar, y en ese caso pasa.
+  \item \textbf{Tiempo.} Cada cambio de turno registra \texttt{inicioTurno} con \texttt{IReloj}. \texttt{VerificarTiempo} compara el tiempo transcurrido con \texttt{SegundosPorTurno} cuando el jugador en turno tiene límite y, si se agotó, registra una jugada \texttt{TiempoAgotado} (RN-04). El controlador la invoca antes de cada acción del humano.
+  \item \textbf{Fin.} \texttt{VerificarFin} declara el dominó cuando el jugador queda sin fichas (RN-08) y el juego cerrado cuando no quedan fichas para robar y ningún jugador tiene opciones (RN-09); en ese caso pasa por el estado Cerrada, construye el \texttt{Resultado} y termina.
+  \item \textbf{Deshacer.} \texttt{HistorialJugadas.ExtraerHastaUltimaDe} entrega, de la más reciente a la más antigua, las jugadas desde la última del humano. \texttt{Revertir} deshace cada una: retira la ficha de la mesa y la devuelve a la mano, o devuelve la ficha robada a las fichas para robar. Al terminar, el turno vuelve al humano (RN-10).
+  \item \textbf{Guardar y cargar.} \texttt{CrearGuardado} produce la configuración, la semilla y la lista de jugadas. \texttt{Restaurar} crea una partida con la misma configuración y semilla, la inicia (lo que reproduce el mismo reparto) y vuelve a aplicar las jugadas en orden, sin consultar a las CPU (RN-11).
+\end{itemize}
+
+\subsection{Clases fuera del dominio}
+
+Las siguientes clases residen en los proyectos que dependen del dominio. Ninguna de ellas es referenciada por \texttt{Domino.Dominio}: se relacionan con él a través de \texttt{ControladorJuego} y de las interfaces que implementan. Cada proyecto ejecutable arma sus dependencias en su punto de entrada.
+
+\begin{itemize}
+  \item \texttt{Domino.Persistencia}: \texttt{RepositorioPartidasJson}, que guarda cada \texttt{PartidaGuardada} como un archivo JSON en una carpeta.
+  \item \texttt{Domino.Consola}: \texttt{InterfazConsola} y \texttt{RelojSistema}.
+  \item \texttt{Domino.Simulacion}: \texttt{SimuladorPartidas} y \texttt{RelojSimulado}. El simulador ocupa el lugar del jugador humano y juega la primera opción válida, o roba o pasa cuando no la tiene.
+\end{itemize}
+
+\subsection{Tamaño del diseño}
+
+El diseño suma 25 clases e interfaces en el dominio (15 entidades e interfaces y 10 tipos de valor) y 5 en los demás proyectos, para un total de 30, sin contar las siete enumeraciones.

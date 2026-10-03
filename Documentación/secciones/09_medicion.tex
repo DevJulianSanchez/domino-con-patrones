@@ -1,0 +1,25 @@
+% !TEX root = ../main.tex
+\section{Medición de recursos y tiempo}\label{sec:medicion}
+
+Las mediciones se realizarán con \texttt{dotnet-trace} y \texttt{dotnet-counters} sobre el proyecto \texttt{Domino.Simulacion}, que ejecuta partidas completas sin interfaz y con semilla fija. En ellas el simulador ocupa el lugar del jugador humano y juega la primera opción válida, de modo que cada partida es reproducible.
+
+\subsection{Acciones críticas declaradas}
+
+La Tabla~\ref{tab:acciones} presenta las acciones que se medirán y el motivo de su elección.
+
+\begin{table}[H]
+\caption{Acciones críticas objeto de medición}\label{tab:acciones}
+\tablacompacta
+\begin{tabularx}{\textwidth}{@{}C{0.8cm}L{4.6cm}Y@{}}
+  \toprule
+  \cab{N.\textordmasculine} & \cab{Acción crítica} & \cab{Motivo de la elección} \\ \midrule
+  1 & Ejecutar jugada & Es la acción más frecuente de la partida. \\ \filasep
+  2 & Calcular jugadas válidas & Se invoca en cada turno y la utilizan todos los niveles de CPU. \\ \filasep
+  3 & Decidir jugada automática & Se mide por nivel de dificultad; se espera que concentre la mayor parte del costo en el nivel Avanzado. \\ \filasep
+  4 & Repartir fichas & Varía según el tipo de dominó y el número de jugadores. \\ \filasep
+  5 & Deshacer jugada & Revierte varias jugadas como una unidad. \\ \filasep
+  6 & Guardar partida & Involucra escritura en disco. \\ \filasep
+  7 & Cargar partida & Involucra lectura de disco y reconstrucción del estado. \\
+  \bottomrule
+\end{tabularx}
+\end{table}

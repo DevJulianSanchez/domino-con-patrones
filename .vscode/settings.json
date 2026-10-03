@@ -1,0 +1,51 @@
+{
+  // ---------- .NET ----------
+  "dotnet.defaultSolution": "Código/Domino.slnx",
+
+  // ---------- LaTeX Workshop: compilación y vista previa en vivo ----------
+  "latex-workshop.latex.recipes": [
+    { "name": "latexmk (xelatex + bibtex)", "tools": ["latexmk"] }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      // Rutas de TeX Live explícitas: VS Code no hereda /Library/TeX/texbin
+      "command": "/Library/TeX/texbin/latexmk",
+      "args": ["%DOC%"],
+      "env": {
+        "PATH": "/Library/TeX/texbin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    }
+  ],
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.latex.rootFile.doNotPrompt": true,
+  // Único archivo raíz del proyecto (evita "Cannot find LaTeX root file")
+  "latex-workshop.latex.search.rootFiles.include": ["Documentación/main.tex"],
+  "latex-workshop.latex.outDir": "%DIR%/build",
+  // Recompila al cambiar cualquier dependencia, incluidos los .drawio
+  "latex-workshop.latex.autoBuild.run": "onFileChange",
+  "latex-workshop.latex.autoBuild.interval": 1500,
+  "latex-workshop.latex.autoClean.run": "never",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.view.pdf.tab.editorGroup": "right",
+  "latex-workshop.view.autoFocus": false,
+  "latex-workshop.synctex.afterBuild.enabled": true,
+  // Binario de TeX Live (VS Code no hereda /Library/TeX/texbin en el PATH);
+  // synctex.js falla con las rutas con tildes (NFD vs NFC)
+  "latex-workshop.synctex.path": "/Library/TeX/texbin/synctex",
+  "latex-workshop.message.warning.show": false,
+
+  // ---------- Draw.io dentro de VS Code ----------
+  "hediet.vscode-drawio.theme": "Kennedy",
+  "hediet.vscode-drawio.appearance": "light",
+  "hediet.vscode-drawio.resizeImages": null,
+
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/bin": true,
+    "**/obj": true
+  },
+  "[latex]": {
+    "editor.wordWrap": "on"
+  }
+}

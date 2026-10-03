@@ -1,0 +1,369 @@
+<mxfile host="Electron" type="device">
+  <diagram id="modelo_dominio" name="modelo_dominio">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Partida" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Partida&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;tipoDomino : TipoDomino&lt;br&gt;limiteTiempo : LimiteTiempo&lt;br&gt;estado : EstadoPartida&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="365.0" y="112.0" width="185.8" height="82.1" as="geometry" />
+        </mxCell>
+        <mxCell id="Jugador" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Jugador&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;alias&lt;br&gt;posicionEnMesa&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="693.5" y="292.0" width="119.0" height="67.6" as="geometry" />
+        </mxCell>
+        <mxCell id="JugadorHumano" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;JugadorHumano&lt;/b&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="663.5" y="476.0" width="114.7" height="30.5" as="geometry" />
+        </mxCell>
+        <mxCell id="JugadorCpu" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;JugadorCpu&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;nivel : NivelDificultad&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="834.5" y="465.0" width="145.2" height="53.0" as="geometry" />
+        </mxCell>
+        <mxCell id="Mano" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Mano&lt;/b&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="521.0" y="476.0" width="51.9" height="30.5" as="geometry" />
+        </mxCell>
+        <mxCell id="Ficha" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Ficha&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;valorA&lt;br&gt;valorB&lt;br&gt;/puntos&lt;br&gt;/esDoble&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="258.5" y="443.0" width="76.8" height="96.6" as="geometry" />
+        </mxCell>
+        <mxCell id="Mesa" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Mesa&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;/valorExtremoIzquierdo&lt;br&gt;/valorExtremoDerecho&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="62.5" y="119.0" width="158.6" height="67.6" as="geometry" />
+        </mxCell>
+        <mxCell id="FichaColocada" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FichaColocada&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;extremo : Extremo&lt;br&gt;orden&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="0.0" y="292.0" width="129.8" height="67.6" as="geometry" />
+        </mxCell>
+        <mxCell id="FichasParaRobar" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FichasParaRobar&lt;/b&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="222.0" y="224.0" width="116.2" height="30.5" as="geometry" />
+        </mxCell>
+        <mxCell id="Jugada" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Jugada&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;tipo : TipoJugada&lt;br&gt;extremo : Extremo [0..1]&lt;br&gt;orden&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="389.5" y="285.0" width="161.3" height="82.1" as="geometry" />
+        </mxCell>
+        <mxCell id="Resultado" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Resultado&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;forma : FormaDeCierre&lt;br&gt;/esEmpate&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="688.0" y="119.0" width="156.0" height="67.6" as="geometry" />
+        </mxCell>
+        <mxCell id="PuntajeFinal" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;PuntajeFinal&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;puntosEnMano&lt;br&gt;fichasEnMano&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fillColor=#F4F6FA;strokeColor=#1F1F41;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="896.5" y="292.0" width="111.2" height="67.6" as="geometry" />
+        </mxCell>
+        <mxCell id="e_1" value="participan ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;curved=1;" edge="1" parent="1" source="Partida" target="Jugador">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="574.3" y="218.4" />
+              <mxPoint x="618.0" y="243.8" />
+              <mxPoint x="661.1" y="268.7" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_2" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_3" value="2..4" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_1">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_4" value="" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=0;endSize=12;curved=1;" edge="1" parent="1" source="JugadorHumano" target="Jugador">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="727.5" y="454.1" />
+              <mxPoint x="732.6" y="428.2" />
+              <mxPoint x="738.1" y="400.1" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_5" value="" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=0;endSize=12;curved=1;" edge="1" parent="1" source="JugadorCpu" target="Jugador">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="864.0" y="441.8" />
+              <mxPoint x="840.8" y="417.3" />
+              <mxPoint x="817.1" y="392.1" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_6" value="posee ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;curved=1;" edge="1" parent="1" source="Jugador" target="Mano">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="667.9" y="391.5" />
+              <mxPoint x="628.2" y="423.1" />
+              <mxPoint x="591.1" y="452.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_7" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_6">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_8" value="1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_6">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_9" value="contiene ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;startArrow=diamondThin;startFill=0;startSize=14;endArrow=none;curved=1;" edge="1" parent="1" source="Mano" target="Ficha">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="475.8" y="488.5" />
+              <mxPoint x="425.9" y="488.5" />
+              <mxPoint x="374.0" y="488.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_10" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_9">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_11" value="0..*" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_9">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_12" value="se juega en ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;curved=1;" edge="1" parent="1" source="Partida" target="Mesa">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="322.9" y="150.0" />
+              <mxPoint x="286.4" y="150.0" />
+              <mxPoint x="250.3" y="150.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_13" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_12">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_14" value="1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_12">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_15" value="contiene&lt;br&gt;{ordenada} ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;curved=1;" edge="1" parent="1" source="Mesa" target="FichaColocada">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="112.5" y="216.5" />
+              <mxPoint x="101.0" y="242.0" />
+              <mxPoint x="89.5" y="267.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_16" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_15">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_17" value="0..*" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_15">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_18" value="corresponde a ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;curved=1;" edge="1" parent="1" source="FichaColocada" target="Ficha">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="83.3" y="368.6" />
+              <mxPoint x="91.9" y="383.3" />
+              <mxPoint x="102.1" y="397.5" />
+              <mxPoint x="114.0" y="410.0" />
+              <mxPoint x="150.0" y="436.1" />
+              <mxPoint x="188.7" y="455.8" />
+              <mxPoint x="226.5" y="469.9" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_19" value="0..1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_18">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_20" value="1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_18">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_21" value="tiene ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;curved=1;" edge="1" parent="1" source="Partida" target="FichasParaRobar">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="350.2" y="202.2" />
+              <mxPoint x="333.9" y="209.9" />
+              <mxPoint x="318.9" y="217.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_22" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_21">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_23" value="1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_21">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_24" value="contiene ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;startArrow=diamondThin;startFill=0;startSize=14;endArrow=none;curved=1;" edge="1" parent="1" source="FichasParaRobar" target="Ficha">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="284.0" y="295.7" />
+              <mxPoint x="287.2" y="342.7" />
+              <mxPoint x="290.7" y="394.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_25" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_24">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_26" value="0..*" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_24">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_27" value="registra&lt;br&gt;{ordenada} ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;curved=1;" edge="1" parent="1" source="Partida" target="Jugada">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="450.2" y="213.2" />
+              <mxPoint x="449.9" y="225.3" />
+              <mxPoint x="450.5" y="237.7" />
+              <mxPoint x="452.0" y="252.0" />
+              <mxPoint x="453.2" y="260.2" />
+              <mxPoint x="454.8" y="268.6" />
+              <mxPoint x="456.6" y="276.9" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_28" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_27">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_29" value="0..*" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_27">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_30" value="realizada por ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;curved=1;" edge="1" parent="1" source="Jugada" target="Jugador">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="581.7" y="323.0" />
+              <mxPoint x="620.8" y="323.0" />
+              <mxPoint x="659.1" y="323.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_31" value="0..*" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_30">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_32" value="1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_30">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_33" value="involucra ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;curved=1;" edge="1" parent="1" source="Jugada" target="Ficha">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="406.5" y="384.0" />
+              <mxPoint x="381.0" y="408.1" />
+              <mxPoint x="356.0" y="431.7" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_34" value="0..*" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_33">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_35" value="0..1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_33">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_36" value="termina con ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;curved=1;" edge="1" parent="1" source="Partida" target="Resultado">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="591.6" y="150.0" />
+              <mxPoint x="626.5" y="150.0" />
+              <mxPoint x="661.0" y="150.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_37" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_36">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_38" value="0..1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_36">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_39" value="ganador ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;curved=1;" edge="1" parent="1" source="Resultado" target="Jugador">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="761.8" y="206.3" />
+              <mxPoint x="759.7" y="233.5" />
+              <mxPoint x="757.7" y="260.7" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_40" value="0..1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_39">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_41" value="0..1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_39">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_42" value="revela ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;curved=1;" edge="1" parent="1" source="Resultado" target="PuntajeFinal">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="834.6" y="214.1" />
+              <mxPoint x="863.4" y="240.6" />
+              <mxPoint x="892.2" y="267.1" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_43" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_42">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_44" value="0..4" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_42">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_45" value="de ▸" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=open;endFill=0;curved=1;" edge="1" parent="1" source="PuntajeFinal" target="Jugador">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="880.7" y="323.0" />
+              <mxPoint x="857.7" y="323.0" />
+              <mxPoint x="834.5" y="323.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_46" value="0..*" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_45">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m_47" value="1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;fontFamily=Arial;fontSize=11;labelBackgroundColor=none;" vertex="1" connectable="0" parent="e_45">
+          <mxGeometry x="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nota_48" value="Cada ficha está en un solo lugar:&lt;br&gt;una mano, la mesa o las fichas&lt;br&gt;para robar." style="shape=note;size=10;whiteSpace=wrap;html=1;align=left;spacingLeft=6;fillColor=#FEFFDD;strokeColor=#181818;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="193.5" y="601.0" width="216.8" height="53.6" as="geometry" />
+        </mxCell>
+        <mxCell id="e_49" value="" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=none;dashed=1;" edge="1" parent="1" source="nota_48" target="Ficha">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nota_50" value="Un JugadorHumano y&lt;br&gt;de uno a tres JugadorCpu." style="shape=note;size=10;whiteSpace=wrap;html=1;align=left;spacingLeft=6;fillColor=#FEFFDD;strokeColor=#181818;fontFamily=Arial;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="371.5" y="6.0" width="182.5" height="39.0" as="geometry" />
+        </mxCell>
+        <mxCell id="e_51" value="" style="edgeStyle=none;rounded=0;html=1;strokeColor=#333333;fontFamily=Arial;fontSize=11;labelBackgroundColor=#FFFFFF;endArrow=none;dashed=1;" edge="1" parent="1" source="nota_50" target="Partida">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

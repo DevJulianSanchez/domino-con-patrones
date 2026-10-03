@@ -1,0 +1,68 @@
+% =====================================================================
+% Documento de diseño del proyecto semestral: Dominó con patrones
+% Compilación: latexmk (XeLaTeX + BibTeX, ver .latexmkrc)
+% =====================================================================
+\documentclass[12pt]{article}
+\input{generado/datos}
+\usepackage{config/estilo}
+
+\begin{document}
+
+% ------------------------------ Portada ------------------------------
+\begin{titlepage}
+  \centering
+  \setstretch{1.2}
+  \includegraphics[width=6.8cm]{config/logo_uan.png}\par
+  \vspace{0.9cm}
+  {\large\scshape \Programa}\par
+  \vspace{0.2cm}
+  {\normalsize\scshape\color{gristexto} Modalidad virtual}\par
+  \vfill
+  {\color{uanoro}\rule{3cm}{0.8pt}}\par\vspace{0.8cm}
+  {\fontsize{26}{32}\selectfont\bfseries\color{uanazul} \Proyecto}\par
+  \vspace{0.5cm}
+  {\Large \Subtitulo}\par
+  \vspace{0.35cm}
+  {\large\itshape \Entrega}\par
+  \vspace{0.8cm}
+  {\color{uanoro}\rule{3cm}{0.8pt}}\par
+  \vfill
+  {\normalsize Presentado por}\par
+  {\large\bfseries \Autor}\par
+  \vspace{0.8cm}
+  {\normalsize Presentado a}\par
+  {\large \Docente}\par
+  \vspace{0.8cm}
+  {\normalsize Asignatura \Asignatura\ (\Codigo)\\ Periodo académico \Periodo}\par
+  \vfill
+  {\normalsize\scshape \Universidad}\par
+  {\normalsize \Ciudad, \FechaEntrega}\par
+\end{titlepage}
+
+% --------------------------- Preliminares ----------------------------
+\pagenumbering{roman}
+\setcounter{page}{2}
+\setcounter{tocdepth}{2}
+{\setstretch{1.15}\tableofcontents}
+\clearpage
+{\setstretch{1.15}\listoffigures}
+\clearpage
+{\setstretch{1.15}\listoftables}
+\clearpage
+\input{secciones/00_control_cambios}
+\clearpage
+
+% ----------------------------- Cuerpo --------------------------------
+\pagenumbering{arabic}
+\input{secciones/02_propuesta}
+\input{secciones/03_reglas}
+\input{secciones/04_lenguaje_arquitectura}
+\input{secciones/05_casos_uso}
+\input{secciones/06_modelo_dominio}
+\input{secciones/07_diagrama_clases}
+\input{secciones/08_responsabilidades}
+\input{secciones/09_medicion}
+\input{secciones/10_bitacora}
+\input{secciones/referencias}
+
+\end{document}

@@ -1,0 +1,82 @@
+% !TEX root = ../main.tex
+\section{Casos de uso}\label{sec:casos}
+
+\subsection{Actores del sistema}
+
+El único actor del sistema es el jugador humano. Los jugadores CPU no se modelan como actores, dado que no son externos al sistema: su comportamiento forma parte del propio juego y se manifiesta dentro de los casos de uso, por ejemplo cuando el sistema resuelve los turnos de las CPU antes de devolver el turno al jugador \citar{larman2003uml}.
+
+\diagrama[0.9\textwidth]{casos_uso}{Diagrama de casos de uso del juego de dominó}{fig:casos-uso}
+
+\subsection{Inventario de casos de uso}
+
+La Tabla~\ref{tab:inventario-cu} relaciona los casos de uso identificados, sus relaciones y las reglas de negocio que los rigen.
+
+\begin{table}[H]
+\caption{Inventario de casos de uso del sistema}\label{tab:inventario-cu}
+\tablacompacta
+\begin{tabularx}{\textwidth}{@{}L{1.4cm}L{4.6cm}Y@{}}
+  \toprule
+  \cab{Código} & \cab{Caso de uso} & \cab{Relación y observaciones} \\ \midrule
+  CU-01 & Configurar partida & Especificado en detalle a continuación. \\ \filasep
+  CU-02 & Iniciar partida & Incluye Repartir fichas y aplica la regla de salida (RN-05). \\ \filasep
+  CU-03 & Jugar ficha & Caso central. El tiempo agotado se trata como curso alterno, en el que el jugador pierde el turno (RN-04). \\ \filasep
+  CU-04 & Robar ficha & Extiende a CU-03 cuando el jugador no tiene ficha para lanzar y quedan fichas para robar (RN-07). \\ \filasep
+  CU-05 & Determinar ganador por juego cerrado & Extiende a CU-03 cuando no quedan fichas para robar y ningún jugador tiene ficha para lanzar. Se revelan las fichas de todos los jugadores y gana la menor suma de puntos (RN-09). \\ \filasep
+  CU-06 & Deshacer jugada & Revierte la última jugada del humano y las de las CPU posteriores (RN-10). \\ \filasep
+  CU-07 & Guardar partida & Rige la regla RN-11. \\ \filasep
+  CU-08 & Cargar partida & Rige la regla RN-11. \\
+  \bottomrule
+\end{tabularx}
+\end{table}
+
+La numeración de los cursos alternos sigue la convención propuesta por \citet{cockburn2001writing}: el número indica el paso del curso normal en el que se detecta la condición, la letra distingue alternativas de un mismo paso y el asterisco identifica las que pueden ocurrir en cualquier paso.
+
+\clearpage
+\subsection{Especificación del caso de uso CU-01 Configurar partida}
+
+\cubloque{Encabezado}
+\encabezadoCU
+  {Configurar partida}{CU-01}
+  {Jugador}
+  {Primario y esencial}
+  {RF-01 Seleccionar el tipo de dominó. RF-02 Definir el número y el nivel de dificultad de las CPU. RF-03 Definir el límite de tiempo por turno.}
+  {No incluye ni extiende otros casos de uso. CU-02 Iniciar partida requiere la configuración registrada por este caso de uso.}
+  {No hay una partida en curso en el sistema.}
+  {Existe una partida en estado Preparada con el tipo de dominó elegido, el jugador humano identificado por su alias, entre una y tres CPU con su nivel de dificultad asignado y el límite de tiempo por turno definido.}
+  {\Autor}
+  {27/09/2026}{1.0 }
+
+\cubloque{Propósito}
+\cajaCU{Permitir que el jugador defina las condiciones de una partida local contra jugadores CPU antes de comenzarla.}
+
+\cubloque{Resumen}
+\cajaCU{El jugador solicita una nueva partida, indica su alias y elige el tipo de dominó entre doble~6 y doble~9. Luego define cuántas CPU participan, de una a tres, asigna a cada una un nivel de dificultad y elige el límite de tiempo por turno. El sistema crea la partida en estado Preparada y presenta un resumen con los jugadores, las fichas por jugador y la cantidad de fichas para robar.}
+
+\needspace{12\baselineskip}
+\cubloque{Curso normal}
+\begin{cursonormal}
+  \paso{1}{El jugador solicita una nueva partida e indica su alias.}
+       {2}{El sistema valida el alias y presenta las opciones de configuración con sus valores predeterminados: tipo de dominó, número de CPU, nivel de dificultad de cada CPU y límite de tiempo por turno.} \filasep
+  \paso{3}{El jugador selecciona el tipo de dominó y el número de CPU.}
+       {4}{El sistema presenta cada CPU con el nivel de dificultad predeterminado.} \filasep
+  \paso{5}{El jugador asigna un nivel de dificultad a cada CPU (Principiante, Intermedio o Avanzado), elige el límite de tiempo por turno y confirma.}
+       {6}{El sistema crea la partida en estado Preparada, con el jugador humano y las CPU configuradas.} \filasep
+  \paso{}{}{7}{El sistema presenta el resumen: tipo de dominó, jugadores con su nivel, fichas por jugador, cantidad de fichas para robar y límite de tiempo.}
+\end{cursonormal}
+
+\cubloque{Cursos alternos}
+\begin{cursosalternos}
+  \alterno{2a}{El alias está vacío o supera la longitud permitida: el sistema informa el motivo y solicita un nuevo alias. Vuelve al paso 1.} \filasep
+  \alterno{3a}{El jugador confirma sin modificar los valores predeterminados: el sistema toma la configuración predeterminada. Continúa en el paso 6.} \filasep
+  \alterno{*a}{El jugador cancela antes del paso 6: no se crea la partida. El caso de uso termina.}
+\end{cursosalternos}
+
+\cubloque{Otros datos}
+\otrosdatosCU{Una vez por partida}{Creación de la partida en menos de 1 segundo desde la confirmación}
+  {Vital}{Alta}{En elaboración}{Moderada}
+
+\cubloque{Comentarios}
+\cajaCU{%
+\textbf{Reglas de negocio aplicadas.} RN-01, RN-02, RN-03 y RN-04.\par
+\textbf{Supuestos.} Los valores predeterminados son doble~6, una CPU de nivel Intermedio y sin límite de tiempo. Todas las opciones se eligen de listas cerradas, por lo que ninguna combinación resulta inválida y no se requiere un paso de validación de la configuración.\par
+\textbf{Notas.} Esta versión reemplaza a CU-01 Establecer sala (versión 1.0), elaborada cuando el alcance contemplaba multijugador en red. La decisión de descartar la red se registra en la bitácora.}
