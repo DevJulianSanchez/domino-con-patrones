@@ -112,7 +112,7 @@ public sealed class Partida
     public static Partida Restaurar(PartidaGuardada guardado, IReloj reloj) =>
         throw new NotImplementedException("Pendiente: iniciar con la misma semilla y aplicar las jugadas guardadas.");
 
-    /// <summary>El humano ocupa la posición 0 y las CPU las siguientes, con el nivel elegido (RN-02).</summary>
+    /// <summary>El humano ocupa la posición 0 y las CPU las siguientes, con la estrategia de su nivel (RN-02).</summary>
     private void CrearJugadores()
     {
         jugadores.Add(new JugadorHumano(configuracion.Alias.Trim(), 0));
@@ -120,14 +120,14 @@ public sealed class Partida
         {
             var posicion = i + 1;
             var nivel = configuracion.NivelesCpu[i];
-            var alias = $"CPU {posicion} ({nivel})";
-            jugadores.Add(nivel switch
+            IEstrategiaCpu estrategia = nivel switch
             {
-                NivelDificultad.Principiante => new JugadorCpuPrincipiante(alias, posicion, new Random(semilla + posicion)),
-                NivelDificultad.Intermedio => new JugadorCpuIntermedio(alias, posicion),
-                NivelDificultad.Avanzado => new JugadorCpuAvanzado(alias, posicion),
+                NivelDificultad.Principiante => new EstrategiaPrincipiante(new Random(semilla + posicion)),
+                NivelDificultad.Intermedio => new EstrategiaIntermedia(),
+                NivelDificultad.Avanzado => new EstrategiaAvanzada(),
                 _ => throw new ArgumentOutOfRangeException(nameof(configuracion), nivel, "Nivel de dificultad no soportado.")
-            });
+            };
+            jugadores.Add(new JugadorCpu($"CPU {posicion} ({nivel})", posicion, estrategia));
         }
     }
 
