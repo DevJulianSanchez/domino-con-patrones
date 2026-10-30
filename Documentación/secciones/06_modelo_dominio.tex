@@ -45,7 +45,7 @@ Los atributos con un conjunto cerrado de valores se representan como enumeracion
   \texttt{TipoDomino} & Doble6, Doble9 \\ \filasep
   \texttt{NivelDificultad} & Principiante, Intermedio, Avanzado \\ \filasep
   \texttt{LimiteTiempo} & SinLimite, Segundos10, Segundos20, Segundos30 \\ \filasep
-  \texttt{EstadoPartida} & Preparada, Salida, EnCurso, Cerrada, Terminada \\ \filasep
+  \texttt{EstadoPartida} & Preparada, Salida, EnCurso, Terminada \\ \filasep
   \texttt{Extremo} & Izquierdo, Derecho \\ \filasep
   \texttt{TipoJugada} & ColocarFicha, Robar, Pasar, TiempoAgotado \\ \filasep
   \texttt{FormaDeCierre} & Domino, JuegoCerrado \\
@@ -58,6 +58,6 @@ Los atributos con un conjunto cerrado de valores se representan como enumeracion
 \begin{itemize}
   \item Cada ficha se encuentra en un solo lugar a la vez: la mano de un jugador, la mesa o las fichas para robar.
   \item Una partida tiene exactamente un \texttt{JugadorHumano} y de uno a tres \texttt{JugadorCpu}.
-  \item El estado Cerrada corresponde al momento en que se revelan las fichas de todos los jugadores para determinar el ganador; a partir de él, la partida pasa a Terminada.
+  \item Cuando el juego se cierra, la partida pasa directamente a Terminada: se revelan las fichas de todos los jugadores y el resultado registra la forma de cierre \texttt{JuegoCerrado}. En la versión 1.0 el cierre se modelaba como un estado Cerrada previo, que se retiró porque no tenía reglas propias (sección~\ref{sec:bitacora}).
   \item Una partida terminada por dominó tiene ganador; una partida cerrada puede terminar empatada, en cuyo caso el resultado no tiene ganador.
 \end{itemize}

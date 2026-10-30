@@ -44,6 +44,10 @@ El PDF queda en `build/main.pdf`. Desde terminal: `latexmk main.tex`.
 | `diagramas/enumeraciones.drawio` | 5.2. Valores enumerados |
 | `diagramas/diagrama_clases.drawio` | 6. Diseño de clases: entidades e interfaces (página apaisada) |
 | `diagramas/tipos_dato.drawio` | 6. Diseño de clases: tipos de valor |
+| `diagramas/patron_strategy.drawio` | 8. Patrones: ficha de Strategy (antes y después) |
+| `diagramas/patron_state.drawio` | 8. Patrones: ficha de State (antes y después) |
+| `diagramas/estados_partida.drawio` | 8. Patrones: diagrama de estados de la partida |
+| `diagramas/patron_command.drawio` | 8. Patrones: ficha de Command (antes y después) |
 
 Flujo:
 

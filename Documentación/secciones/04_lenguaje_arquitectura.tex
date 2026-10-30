@@ -18,7 +18,8 @@ La solución se divide en proyectos cuyas dependencias apuntan en una sola direc
   \texttt{Domino.Dominio} & Reglas y conceptos del juego: partida, mesa, fichas, fichas para robar, jugadores y turnos. & Ninguno \\ \filasep
   \texttt{Domino.Persistencia} & Guardado y carga de partidas en archivos JSON, detrás de \texttt{IRepositorioPartidas}. & \texttt{Domino.Dominio} \\ \filasep
   \texttt{Domino.Consola} & Interfaz de texto: presenta el estado del juego y traduce las acciones del jugador. & \texttt{Domino.Dominio}, \texttt{Domino.Persistencia} \\ \filasep
-  \texttt{Domino.Simulacion} & Ejecución de partidas completas sin interfaz, con semilla fija, para la medición. & \texttt{Domino.Dominio}, \texttt{Domino.Persistencia} \\
+  \texttt{Domino.Simulacion} & Ejecución de partidas completas sin interfaz, con semilla fija, para la medición. & \texttt{Domino.Dominio}, \texttt{Domino.Persistencia} \\ \filasep
+  \texttt{Domino.Pruebas} & Pruebas automatizadas (xUnit) de las reglas del juego y de los patrones aplicados. No forma parte del diseño. & \texttt{Domino.Dominio}, \texttt{Domino.Persistencia} \\
   \bottomrule
 \end{tabularx}
 \end{table}
@@ -33,6 +34,21 @@ El control del tiempo por turno y la persistencia de la partida utilizan compone
 
 \subsection{Estado del código}
 
-El repositorio (\Repositorio), con la etiqueta \EtiquetaRepo, contiene en la carpeta \texttt{Documentación} este documento con sus diagramas y, en la carpeta \texttt{Código}, el esqueleto inicial de la solución \texttt{Domino.slnx}. El esqueleto incluye los proyectos \texttt{Domino.Dominio} y \texttt{Domino.Consola}, compila sin advertencias y se ejecuta desde la consola.
+El repositorio (\Repositorio), con la etiqueta \EtiquetaRepo, contiene en la carpeta \texttt{Documentación} este documento con sus diagramas y, en la carpeta \texttt{Código}, la solución \texttt{Domino.slnx}, que compila sin advertencias. Las clases del código tienen los mismos nombres y miembros que el diagrama de clases (sección~\ref{sec:clases}).
 
-En esta entrega el dominio contiene las clases \texttt{ControladorJuego}, \texttt{Partida}, \texttt{Jugador}, \texttt{JugadorHumano}, \texttt{JugadorCpu}, \texttt{Mano}, \texttt{Ficha} y \texttt{ConfiguracionPartida}, junto con las enumeraciones \texttt{EstadoPartida}, \texttt{TipoDomino} y \texttt{NivelDificultad}, con los mismos nombres del diagrama de clases. La consola ejecuta la parte central de CU-01 Configurar partida: solicita el alias, el tipo de dominó, el número de CPU y el nivel de cada una, valida el alias y el número de CPU (RN-02) y crea la partida en estado Preparada con el jugador humano en la posición~0 y las CPU a continuación. La elección del límite de tiempo, el reparto de las fichas, el ciclo de turnos y los proyectos \texttt{Domino.Persistencia} y \texttt{Domino.Simulacion} se incorporan en las entregas siguientes, a medida que se implementan las clases restantes del diagrama.
+En esta entrega el juego se puede jugar de principio a fin. La partida se configura (CU-01), reparte y determina la salida (RN-05), y admite colocar, robar y pasar (RN-06 y RN-07), el límite de tiempo por turno (RN-04), el dominó (RN-08), el juego cerrado con revelación de fichas (RN-09), deshacer (RN-10) y guardar y cargar (RN-11). Los tres niveles de CPU deciden con criterios distintos. Se aplicaron los patrones de comportamiento Strategy, State y Command, documentados en la sección~\ref{sec:patrones}.
+
+La consola dibuja un único tablero que se actualiza en su lugar, con los puntos de cada ficha, y se maneja con el teclado. Su reemplazo, desde la versión por líneas de la Entrega~1, no modificó ninguna clase del dominio. \texttt{Domino.Simulacion} ejecuta partidas completas con semilla fija y ejercita en cada una deshacer, guardar y cargar. El proyecto \texttt{Domino.Pruebas} contiene 25 pruebas que verifican las reglas y el comportamiento de los tres patrones.
+
+\begin{table}[H]
+\caption{Comandos para ejecutar la solución}\label{tab:comandos}
+\tablacompacta
+\begin{tabularx}{\textwidth}{@{}L{9.6cm}Y@{}}
+  \toprule
+  \cab{Comando (desde la carpeta \texttt{Código})} & \cab{Resultado} \\ \midrule
+  \texttt{dotnet run -{}-project src/Domino.Consola} & Juego en consola. \\ \filasep
+  \texttt{dotnet run -{}-project src/Domino.Simulacion -{}- 1000 42} & 1000 partidas sin interfaz con semilla 42; informa las partidas ganadas por cada jugador. \\ \filasep
+  \texttt{dotnet test} & Ejecuta las pruebas automatizadas. \\
+  \bottomrule
+\end{tabularx}
+\end{table}

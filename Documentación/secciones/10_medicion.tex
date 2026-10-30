@@ -23,3 +23,7 @@ La Tabla~\ref{tab:acciones} presenta las acciones que se medirán y el motivo de
   \bottomrule
 \end{tabularx}
 \end{table}
+
+\subsection{Estado de la medición}
+
+En esta entrega \texttt{Domino.Simulacion} ejecuta partidas completas con semilla fija y ejercita las siete acciones críticas: en cada partida juega, calcula las jugadas válidas, decide las jugadas de las tres CPU, reparte, deshace, guarda y carga una vez. La corrida de 1000 partidas con semilla 42 es reproducible: dos ejecuciones producen el mismo resultado. La línea base con \texttt{dotnet-trace} y \texttt{dotnet-counters} (p50, p95, tiempo de CPU frente a tiempo de reloj y memoria por acción) se presentará en la Entrega~3 sobre este mismo escenario, y servirá para estimar el costo de los patrones aplicados.

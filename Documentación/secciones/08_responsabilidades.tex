@@ -11,10 +11,10 @@ Esta sección justifica el diseño de clases desde dos perspectivas complementar
 \begin{tabularx}{\textwidth}{@{}L{2.9cm}Y@{}}
   \toprule
   \cab{Principio} & \cab{Aplicación en el diseño} \\ \midrule
-  Abstracción & \texttt{Jugador} y \texttt{JugadorCpu} son abstractas: definen lo que todo jugador ofrece sin fijar cómo decide. \texttt{IReloj} e \texttt{IRepositorioPartidas} abstraen la hora y el almacenamiento. \\ \filasep
+  Abstracción & \texttt{Jugador}, \texttt{EstadoJuego} y \texttt{Jugada} son abstractas e \texttt{IEstrategiaCpu} es una interfaz: definen lo que ofrece cada familia sin fijar cómo lo hace. \texttt{IReloj} e \texttt{IRepositorioPartidas} abstraen la hora y el almacenamiento. \\ \filasep
   Encapsulamiento & \texttt{Mano}, \texttt{Mesa}, \texttt{FichasParaRobar} y \texttt{HistorialJugadas} ocultan sus colecciones internas y solo permiten modificarlas mediante operaciones que preservan las reglas. Por ejemplo, ninguna clase externa puede agregar una ficha a la mesa sin pasar por \texttt{PuedeColocar}. \texttt{Ficha} es inmutable. \\ \filasep
-  Herencia & \texttt{JugadorHumano} y \texttt{JugadorCpu} heredan de \texttt{Jugador}; los tres niveles de CPU heredan de \texttt{JugadorCpu}. \\ \filasep
-  Polimorfismo & \texttt{Partida} consulta \texttt{AplicaLimiteTiempo} y \texttt{EsAutomatico} sin distinguir el tipo concreto de jugador, e invoca \texttt{DecidirJugada} sin conocer el nivel de la CPU. \\
+  Herencia & \texttt{JugadorHumano} y \texttt{JugadorCpu} heredan de \texttt{Jugador}; los cuatro estados heredan de \texttt{EstadoJuego} y las cuatro jugadas de \texttt{Jugada}. Los niveles de CPU dejaron de ser subclases: se componen como estrategias (sección~\ref{sec:patrones}). \\ \filasep
+  Polimorfismo & \texttt{Partida} consulta \texttt{AplicaLimiteTiempo} sin distinguir el tipo concreto de jugador, delega en su estado sin conocer cuál es y ejecuta o deshace jugadas sin conocer su tipo. \texttt{JugadorCpu} invoca \texttt{Elegir} sin conocer el nivel de su estrategia. \\
   \bottomrule
 \end{tabularx}
 \end{table}
@@ -38,7 +38,7 @@ Esta sección justifica el diseño de clases desde dos perspectivas complementar
   Fabricación pura & \texttt{HistorialJugadas} administra la secuencia de jugadas para deshacer. & Separa de \texttt{Partida} la lógica de localizar la última jugada del humano y las jugadas de CPU posteriores (RN-10). \\ \filasep
   Fabricación pura & \texttt{VistaPartida} expone solo la información visible. & Controla en un único lugar qué ve cada jugador, incluida la revelación de fichas al cerrarse el juego. Solo contiene tipos de valor, de modo que la interfaz no puede modificar el dominio a través de ella. Se descartó entregar \texttt{Partida} a la interfaz y a las CPU, porque expondría las manos ajenas. \\ \filasep
   Fabricación pura & \texttt{PartidaGuardada} contiene la configuración, la semilla y las jugadas. & Permite guardar la partida sin exponer el estado interno de \texttt{Partida}: al cargarla, la partida se reconstruye repitiendo el reparto y las jugadas. Se descartó serializar el objeto \texttt{Partida} completo, porque obligaría a hacer públicos sus campos y acoplaría el formato del archivo a su estructura interna. \\ \filasep
-  Polimorfismo & Jerarquía \texttt{Jugador}, \texttt{JugadorHumano}, \texttt{JugadorCpu} y niveles. & El comportamiento que varía según el tipo de jugador se resuelve con operaciones polimórficas. Se descartó un atributo de tipo con condicionales en \texttt{Partida}, que crecería con cada nuevo tipo o nivel. \\ \filasep
+  Polimorfismo & Jerarquías de jugadores, estrategias, estados y jugadas. & El comportamiento que varía según el tipo de jugador, el nivel, el estado de la partida o el tipo de jugada se resuelve con operaciones polimórficas. Se descartaron atributos de tipo con condicionales en \texttt{Partida}, que crecerían con cada nuevo caso. Los patrones de la sección~\ref{sec:patrones} son la forma concreta de este principio. \\ \filasep
   Variaciones protegidas e indirección & \texttt{IReloj} e \texttt{IRepositorioPartidas}. & Protegen al dominio de los cambios en la fuente de la hora y en el medio de almacenamiento. Permiten que la simulación use un reloj controlado. Se descartó usar directamente \texttt{DateTime.Now} y el sistema de archivos desde el dominio. \\ \filasep
   Bajo acoplamiento & La consola depende solo de \texttt{ControladorJuego} y \texttt{VistaPartida}; el dominio no depende de ningún otro proyecto. & Cumple la restricción de independencia del dominio y permite reemplazar la interfaz sin modificar las reglas. \\ \filasep
   Alta cohesión & Cada clase concentra un único tipo de responsabilidad. & \texttt{Partida} coordina las reglas, mientras que el reparto, el historial, la vista y el cálculo de resultados residen en clases propias. \\
@@ -46,4 +46,4 @@ Esta sección justifica el diseño de clases desde dos perspectivas complementar
 
 \subsection{Puntos de variación identificados}
 
-El diseño deja identificados los puntos donde el juego varía: la forma en que cada nivel de CPU decide su jugada, el comportamiento de la partida según su estado, la reversión de jugadas y la construcción de la partida a partir de la configuración.
+La versión 1.0 dejó identificados cuatro puntos donde el juego varía: la forma en que cada nivel de CPU decide su jugada, el comportamiento de la partida según su estado, la reversión de jugadas y la construcción de la partida a partir de la configuración. Los tres primeros se resolvieron en esta entrega con Strategy, State y Command (sección~\ref{sec:patrones}). La construcción de la partida y de sus jugadores corresponde a los patrones creacionales de la Entrega~3.
