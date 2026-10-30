@@ -14,6 +14,7 @@ cd Código
 dotnet build                                  # compila la solución
 dotnet run --project src/Domino.Consola       # juego en consola
 dotnet run --project src/Domino.Simulacion -- 1000 42   # partidas, semilla
+dotnet test                                   # pruebas de reglas y patrones
 ```
 
 | Proyecto | Depende de | Contenido |
@@ -22,6 +23,7 @@ dotnet run --project src/Domino.Simulacion -- 1000 42   # partidas, semilla
 | `Domino.Persistencia` | Dominio | `RepositorioPartidasJson` |
 | `Domino.Consola` | Dominio, Persistencia | `InterfazConsola`, `RelojSistema` |
 | `Domino.Simulacion` | Dominio, Persistencia | `SimuladorPartidas`, `RelojSimulado` |
+| `tests/Domino.Pruebas` | Dominio, Persistencia | Pruebas xUnit de las reglas y de los patrones |
 
 Los nombres de clases y miembros coinciden con el diagrama de clases del documento
 (`Documentación/diagramas/diagrama_clases.drawio` y `tipos_dato.drawio`).
