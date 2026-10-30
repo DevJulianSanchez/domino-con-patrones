@@ -1,8 +1,15 @@
 namespace Domino.Dominio;
 
-/// <summary>Aplica las reglas del juego y coordina la mesa, los jugadores, el reparto y el historial.</summary>
+/// <summary>
+/// Aplica las reglas del juego y coordina la mesa, los jugadores, el reparto y el historial.
+/// Es el contexto de State (delega en su estado actual las acciones que dependen de él) y el
+/// invocador de Command (ejecuta, registra y revierte las jugadas).
+/// </summary>
 public sealed class Partida
 {
+    /// <summary>Cantidad de jugadas recientes que incluye la vista.</summary>
+    private const int JugadasRecientes = 12;
+
     private readonly ConfiguracionPartida configuracion;
     private readonly DefinicionTipoDomino definicion;
     private readonly int semilla;
@@ -10,12 +17,12 @@ public sealed class Partida
     private readonly List<Jugador> jugadores = [];
     private readonly Mesa mesa = new();
     private readonly HistorialJugadas historial = new();
-    private FichasParaRobar? fichasParaRobar;
-    private EstadoPartida estado = EstadoPartida.Preparada;
+    private FichasParaRobar fichasParaRobar = new([]);
+    private EstadoJuego estado = new EstadoPreparada();
     private int turnoActual;
     private DateTime inicioTurno;
     private Ficha? fichaSalida;
-    private Resultado? resultado = null;
+    private Resultado? resultado;
 
     public Partida(ConfiguracionPartida configuracion, int semilla, IReloj reloj)
     {
@@ -27,64 +34,58 @@ public sealed class Partida
         CrearJugadores();
     }
 
-    public EstadoPartida Estado => estado;
+    public EstadoPartida Estado => estado.Valor;
 
     public Jugador JugadorEnTurno => jugadores[turnoActual];
 
     public JugadorHumano Humano => (JugadorHumano)jugadores[0];
 
     /// <summary>Reparte las fichas y determina quién abre y con qué ficha (CU-02, RN-05).</summary>
-    public void Iniciar()
-    {
-        if (estado != EstadoPartida.Preparada)
-            throw new InvalidOperationException("La partida ya fue iniciada.");
+    public void Iniciar() => estado.Iniciar(this);
 
-        fichasParaRobar = new Repartidor(semilla).Repartir(jugadores, definicion);
-        DeterminarSalida();
-        estado = EstadoPartida.Salida;
-        inicioTurno = reloj.Ahora;
+    public void JugarFicha(Ficha ficha, Extremo extremo) =>
+        estado.Procesar(this, new JugadaColocarFicha(SiguienteOrden, turnoActual, ficha, extremo));
+
+    public void Robar() => estado.Procesar(this, new JugadaRobar(SiguienteOrden, turnoActual));
+
+    public void Pasar() => estado.Procesar(this, new JugadaPasar(SiguienteOrden, turnoActual));
+
+    /// <summary>Juega los turnos de las CPU hasta que el turno sea del humano o la partida termine.</summary>
+    public void ResolverTurnosCpu()
+    {
+        while (estado.EnJuego && JugadorEnTurno is JugadorCpu cpu)
+        {
+            var opciones = OpcionesDe(cpu);
+            if (opciones.Count > 0)
+            {
+                var elegida = cpu.DecidirJugada(opciones, ObtenerVistaPara(cpu));
+                JugarFicha(elegida.Ficha, elegida.Extremo);
+            }
+            else if (!fichasParaRobar.EstaVacia)
+                Robar();
+            else
+                Pasar();
+        }
     }
 
-    public void JugarFicha(Ficha ficha, Extremo extremo) => throw new NotImplementedException("Pendiente: ciclo de turnos.");
+    /// <summary>Si el jugador en turno agotó su tiempo, pierde el turno (RN-04). Indica si ocurrió.</summary>
+    public bool VerificarTiempo() => estado.VerificarTiempo(this);
 
-    public void Robar() => throw new NotImplementedException("Pendiente: ciclo de turnos.");
+    /// <summary>Revierte la última jugada del humano y las de las CPU posteriores (RN-10).</summary>
+    public void DeshacerUltimaJugadaHumano() => estado.Deshacer(this);
 
-    public void Pasar() => throw new NotImplementedException("Pendiente: ciclo de turnos.");
-
-    public void ResolverTurnosCpu() => throw new NotImplementedException("Pendiente: ciclo de turnos.");
-
-    public bool VerificarTiempo() => throw new NotImplementedException("Pendiente: ciclo de turnos.");
-
-    public void DeshacerUltimaJugadaHumano() => throw new NotImplementedException("Pendiente: ciclo de turnos.");
-
-    public IReadOnlyList<OpcionJugada> OpcionesDe(Jugador jugador)
-    {
-        if (jugador != JugadorEnTurno)
-            return [];
-
-        if (estado == EstadoPartida.Salida)
-            return fichaSalida is null ? [] : [new OpcionJugada(fichaSalida, Extremo.Izquierdo)];
-
-        if (estado != EstadoPartida.EnCurso)
-            return [];
-
-        return jugador.Mano.Fichas
-            .SelectMany(f => new[] { new OpcionJugada(f, Extremo.Izquierdo), new OpcionJugada(f, Extremo.Derecho) })
-            .Where(o => mesa.PuedeColocar(o.Ficha, o.Extremo))
-            .ToList();
-    }
+    public IReadOnlyList<OpcionJugada> OpcionesDe(Jugador jugador) =>
+        jugador == JugadorEnTurno ? estado.OpcionesDe(this, jugador) : [];
 
     public VistaPartida ObtenerVistaPara(Jugador jugador)
     {
-        var enJuego = estado is EstadoPartida.Salida or EstadoPartida.EnCurso;
-        var esTurnoPropio = enJuego && jugador == JugadorEnTurno;
+        var esTurnoPropio = estado.EnJuego && jugador == JugadorEnTurno;
         var opciones = esTurnoPropio ? OpcionesDe(jugador) : [];
-        var paraRobar = fichasParaRobar?.Cantidad ?? 0;
-        var sinOpciones = esTurnoPropio && estado == EstadoPartida.EnCurso && opciones.Count == 0;
+        var sinOpciones = esTurnoPropio && opciones.Count == 0;
 
         return new VistaPartida
         {
-            Estado = estado,
+            Estado = estado.Valor,
             Jugadores = jugadores.Select(j => j.Alias).ToList(),
             FichasPorJugador = jugadores.Select(j => j.Mano.Cantidad).ToList(),
             PosicionPropia = jugador.Posicion,
@@ -94,23 +95,93 @@ public sealed class Partida
             Mesa = mesa.Colocadas,
             ExtremoIzquierdo = mesa.EstaVacia ? null : mesa.ValorExtremo(Extremo.Izquierdo),
             ExtremoDerecho = mesa.EstaVacia ? null : mesa.ValorExtremo(Extremo.Derecho),
-            FichasParaRobar = paraRobar,
+            FichasParaRobar = fichasParaRobar.Cantidad,
             Opciones = opciones,
-            PuedeRobar = sinOpciones && paraRobar > 0,
-            PuedePasar = sinOpciones && paraRobar == 0,
-            PuedeDeshacer = estado == EstadoPartida.EnCurso && jugador == Humano && historial.HayJugadaDe(jugador.Posicion),
-            SegundosRestantes = esTurnoPropio && jugador.AplicaLimiteTiempo && configuracion.SegundosPorTurno is { } limite
+            PuedeRobar = sinOpciones && !fichasParaRobar.EstaVacia,
+            PuedePasar = sinOpciones && fichasParaRobar.EstaVacia,
+            PuedeDeshacer = estado.PermiteDeshacer && jugador == Humano && historial.HayJugadaDe(jugador.Posicion),
+            SegundosRestantes = esTurnoPropio && estado.ControlaTiempo && jugador.AplicaLimiteTiempo
+                                && configuracion.SegundosPorTurno is { } limite
                 ? Math.Max(0, limite - (int)(reloj.Ahora - inicioTurno).TotalSeconds)
                 : null,
-            UltimasJugadas = historial.Ultimas(jugadores.Count),
+            UltimasJugadas = historial.Ultimas(JugadasRecientes),
             Resultado = resultado
         };
     }
 
     public PartidaGuardada CrearGuardado() => new(configuracion, semilla, historial.Todas.ToList());
 
-    public static Partida Restaurar(PartidaGuardada guardado, IReloj reloj) =>
-        throw new NotImplementedException("Pendiente: iniciar con la misma semilla y aplicar las jugadas guardadas.");
+    /// <summary>
+    /// Crea una partida con la misma configuración y semilla, la inicia (mismo reparto) y vuelve a
+    /// procesar las jugadas guardadas en orden, sin consultar a las CPU (RN-11).
+    /// </summary>
+    public static Partida Restaurar(PartidaGuardada guardado, IReloj reloj)
+    {
+        var partida = new Partida(guardado.Configuracion, guardado.Semilla, reloj);
+        partida.Iniciar();
+        foreach (var jugada in guardado.Jugadas)
+            partida.estado.Procesar(partida, jugada);
+        partida.IniciarTurno();
+        return partida;
+    }
+
+    // ---------- Operaciones que usan los estados (State) ----------
+
+    internal Ficha? FichaSalida => fichaSalida;
+
+    internal void CambiarEstado(EstadoJuego nuevo) => estado = nuevo;
+
+    internal void Repartir()
+    {
+        fichasParaRobar = new Repartidor(semilla).Repartir(jugadores, definicion);
+        DeterminarSalida();
+        IniciarTurno();
+    }
+
+    internal IReadOnlyList<OpcionJugada> OpcionesSobreMesa(Jugador jugador) =>
+        jugador.Mano.Fichas
+            .SelectMany(f => new[] { new OpcionJugada(f, Extremo.Izquierdo), new OpcionJugada(f, Extremo.Derecho) })
+            .Where(o => mesa.PuedeColocar(o.Ficha, o.Extremo))
+            .ToList();
+
+    /// <summary>La jugada corresponde al jugador en turno y cumple sus propias condiciones.</summary>
+    internal bool EsValida(Jugada jugada) =>
+        jugada.PosicionJugador == turnoActual && jugada.EsValida(mesa, JugadorEnTurno.Mano, fichasParaRobar);
+
+    /// <summary>Ejecuta la jugada (Command), la registra, verifica el fin y, si corresponde, avanza el turno.</summary>
+    internal void Aplicar(Jugada jugada)
+    {
+        jugada.Ejecutar(mesa, jugadores[jugada.PosicionJugador].Mano, fichasParaRobar);
+        historial.Registrar(jugada);
+        if (VerificarFin(jugadores[jugada.PosicionJugador]))
+            return;
+        if (jugada.TerminaTurno)
+            AvanzarTurno();
+    }
+
+    internal bool TiempoAgotado() =>
+        JugadorEnTurno.AplicaLimiteTiempo
+        && configuracion.SegundosPorTurno is { } limite
+        && (reloj.Ahora - inicioTurno).TotalSeconds >= limite;
+
+    internal Jugada CrearJugadaTiempoAgotado() => new JugadaTiempoAgotado(SiguienteOrden, turnoActual);
+
+    internal bool HayJugadaDe(Jugador jugador) => historial.HayJugadaDe(jugador.Posicion);
+
+    /// <summary>Deshace, de la más reciente a la más antigua, las jugadas desde la última del jugador.</summary>
+    internal void RevertirHastaUltimaDe(Jugador jugador)
+    {
+        foreach (var jugada in historial.ExtraerHastaUltimaDe(jugador.Posicion))
+            jugada.Deshacer(mesa, jugadores[jugada.PosicionJugador].Mano, fichasParaRobar);
+
+        turnoActual = jugador.Posicion;
+        IniciarTurno();
+        CambiarEstado(mesa.EstaVacia ? new EstadoSalida() : new EstadoEnCurso());
+    }
+
+    // ---------- Apoyo interno ----------
+
+    private int SiguienteOrden => historial.Cantidad + 1;
 
     /// <summary>El humano ocupa la posición 0 y las CPU las siguientes, con la estrategia de su nivel (RN-02).</summary>
     private void CrearJugadores()
@@ -132,21 +203,21 @@ public sealed class Partida
     }
 
     /// <summary>
-    /// RN-05: abre quien tenga el doble más alto, buscando desde el doble máximo hasta el doble 0.
-    /// Sin dobles, abre la ficha de mayor puntaje y, en empate, la de número individual más alto.
+    /// RN-05: abre quien tenga el doble más alto entre todos los jugadores. Sin dobles, abre la
+    /// ficha de mayor puntaje y, en empate, la de número individual más alto.
     /// </summary>
     private void DeterminarSalida()
     {
-        for (var valor = definicion.ValorMaximo; valor >= 0; valor--)
+        var conDoble = jugadores
+            .Select(j => (Jugador: j, Ficha: j.Mano.MayorDoble()))
+            .Where(x => x.Ficha is not null)
+            .OrderByDescending(x => x.Ficha!.ValorA)
+            .FirstOrDefault();
+        if (conDoble.Jugador is not null)
         {
-            var doble = new Ficha(valor, valor);
-            var duenio = jugadores.Find(j => j.Mano.Contiene(doble));
-            if (duenio is not null)
-            {
-                turnoActual = duenio.Posicion;
-                fichaSalida = doble;
-                return;
-            }
+            turnoActual = conDoble.Jugador.Posicion;
+            fichaSalida = conDoble.Ficha;
+            return;
         }
 
         var mayor = jugadores
@@ -158,13 +229,28 @@ public sealed class Partida
         fichaSalida = mayor.Ficha;
     }
 
-    private void Aplicar(Jugada jugada) => throw new NotImplementedException("Pendiente: ciclo de turnos.");
+    private void AvanzarTurno()
+    {
+        turnoActual = (turnoActual + 1) % jugadores.Count;
+        IniciarTurno();
+    }
 
-    private void Revertir(Jugada jugada) => throw new NotImplementedException("Pendiente: ciclo de turnos.");
+    private void IniciarTurno() => inicioTurno = reloj.Ahora;
 
-    private void AvanzarTurno() => throw new NotImplementedException("Pendiente: ciclo de turnos.");
+    /// <summary>Dominó si el jugador quedó sin fichas (RN-08); juego cerrado si nadie puede jugar ni robar (RN-09).</summary>
+    private bool VerificarFin(Jugador ultimo)
+    {
+        if (ultimo.Mano.EstaVacia)
+            resultado = Resultado.PorDomino(ultimo, jugadores);
+        else if (EstaCerrado())
+            resultado = Resultado.PorJuegoCerrado(jugadores);
+        else
+            return false;
 
-    private void VerificarFin() => throw new NotImplementedException("Pendiente: ciclo de turnos.");
+        CambiarEstado(new EstadoTerminada());
+        return true;
+    }
 
-    private bool EstaCerrado() => throw new NotImplementedException("Pendiente: ciclo de turnos.");
+    private bool EstaCerrado() =>
+        fichasParaRobar.EstaVacia && jugadores.TrueForAll(j => !mesa.AdmiteAlgunaDe(j.Mano.Fichas));
 }

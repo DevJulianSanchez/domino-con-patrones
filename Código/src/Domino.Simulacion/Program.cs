@@ -11,5 +11,7 @@ var configuracion = new ConfiguracionPartida(
 var carpeta = Path.Combine(Path.GetTempPath(), "DominoPatrones", "simulacion");
 
 Console.WriteLine($"Simulando {partidas} partidas con semilla {semilla}...");
-new SimuladorPartidas(configuracion, carpeta).Ejecutar(partidas, semilla);
-Console.WriteLine("Simulación terminada.");
+var victorias = new SimuladorPartidas(configuracion, carpeta).Ejecutar(partidas, semilla);
+Console.WriteLine("Simulación terminada. Partidas ganadas:");
+foreach (var (alias, cantidad) in victorias.OrderByDescending(v => v.Value))
+    Console.WriteLine($"  {alias,-25} {cantidad,5}");

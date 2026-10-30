@@ -18,6 +18,10 @@ public sealed class Mesa
 
     public bool PuedeColocar(Ficha ficha, Extremo extremo) => EstaVacia || ficha.Contiene(ValorExtremo(extremo));
 
+    /// <summary>Indica si alguna de las fichas puede colocarse en alguno de los extremos.</summary>
+    public bool AdmiteAlgunaDe(IEnumerable<Ficha> fichas) =>
+        fichas.Any(f => PuedeColocar(f, Extremo.Izquierdo) || PuedeColocar(f, Extremo.Derecho));
+
     public void Colocar(Ficha ficha, Extremo extremo)
     {
         if (!PuedeColocar(ficha, extremo))
