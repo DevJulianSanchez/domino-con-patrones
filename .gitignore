@@ -5,8 +5,14 @@ obj/
 .vs/
 TestResults/
 
-# LaTeX (el PDF se adjunta al release de cada entrega)
-Documentación/build/
+# LaTeX: se versiona solo el PDF compilado del documento
+Documentación/build/*
+!Documentación/build/main.pdf
+
+# Fuentes del documento que no se publican
+Documentación/diagramas/
+Documentación/secciones/
+Documentación/config/
 *.bak
 
 # Enunciado del curso (no es parte del trabajo)
