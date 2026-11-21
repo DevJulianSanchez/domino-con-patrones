@@ -1,0 +1,25 @@
+.NET 10.0.2 · macOS 27.2.1 · Arm64 · 8 núcleos · GC servidor: False
+Calentamiento: 200 partidas descartadas. Medición: 3 corridas de 1000 partidas, semilla 42.
+
+Acción crítica                            n    p50 µs    p95 µs  CPU/reloj    B p50  total ms
+Ejecutar jugada                       65455      0.40      1.00       1.38      120      36.7
+Calcular jugadas válidas              65455      1.00      2.50       1.16     1128      79.4
+Decidir jugada (Principiante)         11435      0.00      0.10       7.92        0       0.4
+Decidir jugada (Intermedio)           11471      0.40      1.00       1.36      304       6.4
+Decidir jugada (Avanzado)             11502      1.90      5.90       1.08      856      28.2
+Repartir fichas                        1000     11.70     17.00       1.01     5592      12.7
+Deshacer jugada                        1000      1.50      4.50       1.12      424       1.9
+Guardar partida                        1000     91.60    156.70       1.00     6664      99.9
+Cargar partida                         1000    113.20    153.00       0.94    33200     117.5
+Construir vista (Facade)              34408      2.60      4.20       1.07     2408      97.7
+Cargar: leer JSON (Adapter)            1000     88.00    118.10       0.93    26280      93.2
+Cargar: repetir jugadas (Command)      1000     21.60     30.00       1.01     6752      23.0
+
+Memoria administrada tras la recolección (mediana): 8633 KiB
+Partidas ganadas en la última corrida (deben coincidir con el simulador):
+  CPU 3 (Avanzado)            296
+  CPU 2 (Intermedio)          252
+  Simulado                    229
+  CPU 1 (Principiante)        215
+  Empate                        8
+Resultados en Medición/linea_base/proceso1.csv

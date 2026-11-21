@@ -62,31 +62,36 @@ public sealed class InterfazConsola
         return controlador.IniciarPartida(LeerConfiguracion());
     }
 
-    /// <summary>CU-01 Configurar partida. Cada opción parte del valor predeterminado; Esc cancela.</summary>
+    /// <summary>
+    /// CU-01 Configurar partida. Dirige los pasos del ConstructorConfiguracion (Builder): cada
+    /// opción parte del valor predeterminado y el constructor valida cada paso. Esc cancela.
+    /// </summary>
     private ConfiguracionPartida LeerConfiguracion()
     {
+        var constructor = new ConstructorConfiguracion();
         var resumen = new List<string>();
-        var alias = LeerAlias(resumen);
+        var alias = LeerAlias(constructor, resumen);
         resumen.Add($"Alias: {alias}");
 
-        var tipo = Elegir("Tipo de dominó", [TipoDomino.Doble6, TipoDomino.Doble9], TipoDomino.Doble6, resumen);
+        var tipo = Elegir("Tipo de dominó", Enum.GetValues<TipoDomino>(), ConstructorConfiguracion.TipoPredeterminado, resumen);
+        constructor.ConTipo(tipo);
         resumen.Add($"Tipo de dominó: {tipo}");
-        var cantidadCpu = Elegir("Número de CPU", [1, 2, 3], 1, resumen);
-        resumen.Add($"Número de CPU: {cantidadCpu}");
 
-        var niveles = new List<NivelDificultad>();
+        var cantidades = ConstructorConfiguracion.CantidadesCpu;
+        var cantidadCpu = Elegir("Número de CPU", cantidades, cantidades[0], resumen);
+        resumen.Add($"Número de CPU: {cantidadCpu}");
         for (var i = 1; i <= cantidadCpu; i++)
         {
-            var nivel = Elegir($"Nivel de la CPU {i}", Enum.GetValues<NivelDificultad>(), NivelDificultad.Intermedio, resumen);
-            niveles.Add(nivel);
+            var nivel = Elegir($"Nivel de la CPU {i}", Enum.GetValues<NivelDificultad>(), ConstructorConfiguracion.NivelPredeterminado, resumen);
+            constructor.AgregarCpu(nivel);
             resumen.Add($"CPU {i}: {nivel}");
         }
-        var limite = Elegir("Límite de tiempo por turno", Enum.GetValues<LimiteTiempo>(), LimiteTiempo.SinLimite, resumen);
 
-        return new ConfiguracionPartida(alias, tipo, niveles, limite);
+        var limite = Elegir("Límite de tiempo por turno", Enum.GetValues<LimiteTiempo>(), ConstructorConfiguracion.LimitePredeterminado, resumen);
+        return constructor.ConLimite(limite).Construir();
     }
 
-    private string LeerAlias(IReadOnlyList<string> resumen)
+    private string LeerAlias(ConstructorConfiguracion constructor, IReadOnlyList<string> resumen)
     {
         var mensaje = "";
         while (true)
@@ -95,7 +100,7 @@ public sealed class InterfazConsola
             var alias = pantalla.LeerTexto("Alias: ");
             try
             {
-                ConfiguracionPartida.Predeterminada(alias).Validar();
+                constructor.ConAlias(alias);
                 return alias;
             }
             catch (ArgumentException ex)

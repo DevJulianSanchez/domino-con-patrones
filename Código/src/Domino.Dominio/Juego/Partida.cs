@@ -14,7 +14,7 @@ public sealed class Partida
     private readonly DefinicionTipoDomino definicion;
     private readonly int semilla;
     private readonly IReloj reloj;
-    private readonly List<Jugador> jugadores = [];
+    private readonly List<Jugador> jugadores;
     private readonly Mesa mesa = new();
     private readonly HistorialJugadas historial = new();
     private FichasParaRobar fichasParaRobar = new([]);
@@ -31,7 +31,7 @@ public sealed class Partida
         this.semilla = semilla;
         this.reloj = reloj;
         definicion = DefinicionTipoDomino.De(configuracion.Tipo);
-        CrearJugadores();
+        jugadores = new FabricaJugadores(semilla).CrearJugadores(configuracion);
     }
 
     public EstadoPartida Estado => estado.Valor;
@@ -138,11 +138,27 @@ public sealed class Partida
         IniciarTurno();
     }
 
-    internal IReadOnlyList<OpcionJugada> OpcionesSobreMesa(Jugador jugador) =>
-        jugador.Mano.Fichas
-            .SelectMany(f => new[] { new OpcionJugada(f, Extremo.Izquierdo), new OpcionJugada(f, Extremo.Derecho) })
-            .Where(o => mesa.PuedeColocar(o.Ficha, o.Extremo))
-            .ToList();
+    /// <summary>
+    /// Fichas de la mano que coinciden con cada extremo (RN-06). Es la acción más frecuente de la
+    /// partida: lee los extremos una sola vez y reserva la lista con su tamaño máximo, sin
+    /// colecciones intermedias (mejora 1 de la medición).
+    /// </summary>
+    internal IReadOnlyList<OpcionJugada> OpcionesSobreMesa(Jugador jugador)
+    {
+        var fichas = jugador.Mano.Fichas;
+        var opciones = new List<OpcionJugada>(fichas.Count * 2);
+        var vacia = mesa.EstaVacia;
+        var izquierdo = vacia ? 0 : mesa.ValorExtremo(Extremo.Izquierdo);
+        var derecho = vacia ? 0 : mesa.ValorExtremo(Extremo.Derecho);
+        foreach (var ficha in fichas)
+        {
+            if (vacia || ficha.Contiene(izquierdo))
+                opciones.Add(new OpcionJugada(ficha, Extremo.Izquierdo));
+            if (vacia || ficha.Contiene(derecho))
+                opciones.Add(new OpcionJugada(ficha, Extremo.Derecho));
+        }
+        return opciones;
+    }
 
     /// <summary>La jugada corresponde al jugador en turno y cumple sus propias condiciones.</summary>
     internal bool EsValida(Jugada jugada) =>
@@ -182,25 +198,6 @@ public sealed class Partida
     // ---------- Apoyo interno ----------
 
     private int SiguienteOrden => historial.Cantidad + 1;
-
-    /// <summary>El humano ocupa la posición 0 y las CPU las siguientes, con la estrategia de su nivel (RN-02).</summary>
-    private void CrearJugadores()
-    {
-        jugadores.Add(new JugadorHumano(configuracion.Alias.Trim(), 0));
-        for (var i = 0; i < configuracion.NivelesCpu.Count; i++)
-        {
-            var posicion = i + 1;
-            var nivel = configuracion.NivelesCpu[i];
-            IEstrategiaCpu estrategia = nivel switch
-            {
-                NivelDificultad.Principiante => new EstrategiaPrincipiante(new Random(semilla + posicion)),
-                NivelDificultad.Intermedio => new EstrategiaIntermedia(),
-                NivelDificultad.Avanzado => new EstrategiaAvanzada(),
-                _ => throw new ArgumentOutOfRangeException(nameof(configuracion), nivel, "Nivel de dificultad no soportado.")
-            };
-            jugadores.Add(new JugadorCpu($"CPU {posicion} ({nivel})", posicion, estrategia));
-        }
-    }
 
     /// <summary>
     /// RN-05: abre quien tenga el doble más alto entre todos los jugadores. Sin dobles, abre la

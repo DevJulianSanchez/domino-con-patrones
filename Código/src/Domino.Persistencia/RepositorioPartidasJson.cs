@@ -6,15 +6,17 @@ using Domino.Dominio;
 namespace Domino.Persistencia;
 
 /// <summary>
-/// Guarda cada partida como un archivo JSON dentro de una carpeta. Las jugadas son objetos de
-/// distintas clases (Command); el discriminador se configura aquí para que el dominio no
-/// dependa del formato del archivo.
+/// Adapter: adapta System.Text.Json y el sistema de archivos a la interfaz IRepositorioPartidas
+/// que declara el dominio. Guarda cada partida como un archivo JSON dentro de una carpeta. Las
+/// jugadas son objetos de distintas clases (Command); el discriminador se configura aquí para
+/// que el dominio no dependa del formato del archivo, y los errores de la librería se traducen
+/// a excepciones del contrato.
 /// </summary>
 public sealed class RepositorioPartidasJson : IRepositorioPartidas
 {
     private static readonly JsonSerializerOptions Opciones = new()
     {
-        WriteIndented = true,
+        WriteIndented = false,
         Converters = { new JsonStringEnumConverter() },
         TypeInfoResolver = new DefaultJsonTypeInfoResolver { Modifiers = { RegistrarTiposDeJugada } }
     };
@@ -29,7 +31,7 @@ public sealed class RepositorioPartidasJson : IRepositorioPartidas
     public void Guardar(string nombre, PartidaGuardada partida)
     {
         Directory.CreateDirectory(carpeta);
-        File.WriteAllText(Ruta(nombre), JsonSerializer.Serialize(partida, Opciones));
+        File.WriteAllBytes(Ruta(nombre), JsonSerializer.SerializeToUtf8Bytes(partida, Opciones));
     }
 
     public PartidaGuardada Cargar(string nombre)
@@ -40,7 +42,7 @@ public sealed class RepositorioPartidasJson : IRepositorioPartidas
 
         try
         {
-            return JsonSerializer.Deserialize<PartidaGuardada>(File.ReadAllText(ruta), Opciones)
+            return JsonSerializer.Deserialize<PartidaGuardada>(File.ReadAllBytes(ruta), Opciones)
                    ?? throw new InvalidDataException($"El archivo '{ruta}' no contiene una partida válida.");
         }
         catch (JsonException ex)

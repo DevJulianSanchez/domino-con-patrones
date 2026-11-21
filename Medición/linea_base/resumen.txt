@@ -1,0 +1,14 @@
+Acción                                   n   p50 µs   p95 µs  CPU/rel   B p50  total ms
+Ejecutar jugada                      65455     0.50     1.10     1.37  120.00     37.70
+Calcular jugadas válidas             65455     1.00     2.50     1.16 1128.00     80.50
+Decidir jugada (Principiante)        11435     0.00     0.10     7.18    0.00      0.40
+Decidir jugada (Intermedio)          11471     0.50     1.00     1.36  304.00      6.40
+Decidir jugada (Avanzado)            11502     1.80     5.80     1.08  856.00     27.40
+Repartir fichas                       1000    12.50    17.00     1.01 5592.00     13.30
+Deshacer jugada                       1000     1.50     4.50     1.11  424.00      2.00
+Guardar partida                       1000    91.60   180.00     0.96 6664.00    103.60
+Cargar partida                        1000   111.60   153.00     0.9433200.00    117.70
+Construir vista (Facade)             34408     2.60     4.20     1.07 2408.00     98.20
+Cargar: leer JSON (Adapter)           1000    88.00   116.50     0.9326280.00     92.40
+Cargar: repetir jugadas (Command)     1000    21.60    31.30     1.01 6752.00     23.00
+Memoria tras GC (KiB)                                                 8633.00          

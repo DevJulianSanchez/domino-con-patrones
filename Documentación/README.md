@@ -39,6 +39,7 @@ El PDF queda en `build/main.pdf`. Desde terminal: `latexmk main.tex`.
 
 | Archivo | Sección donde se incluye |
 |---|---|
+| `diagramas/componentes.drawio` | 3. Lenguaje y organización de la solución |
 | `diagramas/casos_uso.drawio` | 4. Casos de uso |
 | `diagramas/modelo_dominio.drawio` | 5. Modelo de dominio |
 | `diagramas/enumeraciones.drawio` | 5.2. Valores enumerados |
@@ -48,6 +49,10 @@ El PDF queda en `build/main.pdf`. Desde terminal: `latexmk main.tex`.
 | `diagramas/patron_state.drawio` | 8. Patrones: ficha de State (antes y después) |
 | `diagramas/estados_partida.drawio` | 8. Patrones: diagrama de estados de la partida |
 | `diagramas/patron_command.drawio` | 8. Patrones: ficha de Command (antes y después) |
+| `diagramas/patron_facade.drawio` | 8. Patrones: ficha de Facade (sin y con la fachada) |
+| `diagramas/patron_adapter.drawio` | 8. Patrones: ficha de Adapter (sin y con el adaptador) |
+| `diagramas/patron_builder.drawio` | 8. Patrones: ficha de Builder (antes y después) |
+| `diagramas/patron_factory_method.drawio` | 8. Patrones: ficha de Factory Method (antes y después) |
 
 Flujo:
 

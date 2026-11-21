@@ -15,6 +15,9 @@ Documentación/secciones/
 Documentación/config/
 *.bak
 
+# Guía de sustentación (fuente, PDF y auxiliares)
+**/guia_sustentacion*
+
 # Enunciado del curso (no es parte del trabajo)
 DBP Proyecto - Especificacion*.pdf
 

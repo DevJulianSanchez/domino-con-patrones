@@ -1,0 +1,14 @@
+accion,invocaciones,p50_us,p95_us,cpu_reloj,bytes_p50,reloj_total_ms
+"Ejecutar jugada",65455,0.50,1.20,1.30,120,44.5
+"Calcular jugadas válidas",65455,0.30,0.60,1.54,240,24.5
+"Decidir jugada (Principiante)",11435,0.00,0.10,10.34,0,0.3
+"Decidir jugada (Intermedio)",11471,0.50,1.00,1.36,304,6.2
+"Decidir jugada (Avanzado)",11502,1.80,5.70,1.08,856,27.4
+"Repartir fichas",1000,12.90,16.30,1.01,5592,13.4
+"Deshacer jugada",1000,1.50,4.50,1.11,424,1.9
+"Guardar partida",1000,88.40,179.40,0.94,6656,104.5
+"Cargar partida",1000,109.50,149.10,0.95,33200,113.6
+"Construir vista (Facade)",34408,2.20,2.70,1.09,1464,77.0
+"Cargar: leer JSON (Adapter)",1000,86.80,118.30,0.93,26280,90.0
+"Cargar: repetir jugadas (Command)",1000,21.20,30.80,1.00,6752,22.4
+"Memoria tras GC (KiB)",,,,,8628,

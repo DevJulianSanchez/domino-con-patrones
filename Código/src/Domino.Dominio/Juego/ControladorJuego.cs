@@ -1,8 +1,9 @@
 namespace Domino.Dominio;
 
 /// <summary>
-/// Punto de entrada de las operaciones del sistema. Delega en la partida, resuelve después los
-/// turnos de las CPU y devuelve siempre la vista del jugador humano.
+/// Facade: punto de entrada único de las operaciones del sistema. Oculta a la interfaz y al
+/// simulador la partida, sus estados, las jugadas, el repositorio y el reloj: delega en la
+/// partida, resuelve después los turnos de las CPU y devuelve siempre la vista del jugador humano.
 /// </summary>
 public sealed class ControladorJuego
 {

@@ -6,6 +6,7 @@ Proyecto semestral de Diseño Basado en Patrones (UAN, Maestría en Arquitectura
 |---|---|
 | `Código/` | Solución .NET 10 (`Domino.slnx`) |
 | `Documentación/` | Documento de diseño en LaTeX y diagramas draw.io (ver su README) |
+| `Medición/` | Medición de recursos y tiempo (Anexo C): resultados, grabaciones y guiones (ver su README) |
 
 ## Código
 
@@ -14,6 +15,7 @@ cd Código
 dotnet build                                  # compila la solución
 dotnet run --project src/Domino.Consola       # juego en consola
 dotnet run --project src/Domino.Simulacion -- 1000 42   # partidas, semilla
+dotnet run -c Release --project src/Domino.Simulacion -- banco 1000 42   # modo banco de pruebas
 dotnet test                                   # pruebas de reglas y patrones
 ```
 
@@ -22,7 +24,7 @@ dotnet test                                   # pruebas de reglas y patrones
 | `Domino.Dominio` | — | Reglas del juego, entidades, tipos de valor y abstracciones |
 | `Domino.Persistencia` | Dominio | `RepositorioPartidasJson` |
 | `Domino.Consola` | Dominio, Persistencia | `InterfazConsola`, `RelojSistema` |
-| `Domino.Simulacion` | Dominio, Persistencia | `SimuladorPartidas`, `RelojSimulado` |
+| `Domino.Simulacion` | Dominio, Persistencia | `SimuladorPartidas`, `RelojSimulado` y el modo banco de pruebas (`BancoPruebas`) |
 | `tests/Domino.Pruebas` | Dominio, Persistencia | Pruebas xUnit de las reglas y de los patrones |
 
 Los nombres de clases y miembros coinciden con el diagrama de clases del documento

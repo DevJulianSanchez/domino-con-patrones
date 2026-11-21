@@ -14,10 +14,13 @@ internal sealed class RelojFalso : IReloj
 internal static class Apoyo
 {
     public static ConfiguracionPartida Configuracion(
-        TipoDomino tipo = TipoDomino.Doble9, int cpus = 3, LimiteTiempo limite = LimiteTiempo.SinLimite) =>
-        new("Prueba", tipo,
-            Enumerable.Range(0, cpus).Select(i => (NivelDificultad)(i % 3)).ToList(),
-            limite);
+        TipoDomino tipo = TipoDomino.Doble9, int cpus = 3, LimiteTiempo limite = LimiteTiempo.SinLimite)
+    {
+        var constructor = new ConstructorConfiguracion().ConAlias("Prueba").ConTipo(tipo).ConLimite(limite);
+        for (var i = 0; i < cpus; i++)
+            constructor.AgregarCpu((NivelDificultad)(i % 3));
+        return constructor.Construir();
+    }
 
     public static ControladorJuego Controlador(int semilla, IReloj? reloj = null) =>
         new(reloj ?? new RelojFalso(), new RepositorioPartidasJson(CarpetaTemporal()), new Random(semilla));
